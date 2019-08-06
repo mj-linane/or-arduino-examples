@@ -1,5 +1,7 @@
 // Template for Arduino projects on VSCode
 
+#include <Arduino.h>
+
 /*
 SETUP BLOCK  = Preparation
 The setup function is the first to execute when the program is executed, 
