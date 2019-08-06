@@ -1,7 +1,7 @@
 // Open up the Arduino environment. Then copy and paste it into a new sketch.
 // Then upload the code to the Arduino board.
 
-
+#include <Arduino.h>
 #include <Servo.h>
 Servo myservo;                                         //create servo object to control a servo
 
