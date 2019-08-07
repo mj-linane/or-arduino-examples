@@ -64,37 +64,14 @@ void indicateRange(int inches)
   delay(100);
 }
 
-// Function to average the result
-rangeArrayCalculateAverage(int inches)
-{
-  // subtract the last reading:
-  total = total - rangeArray[readIndex];
-  // read from the sensor:
-  rangeArray[readIndex] = inches;
-  // add the reading to the total:
-  total = total + rangeArray[readIndex];
-  // advance to the next position in the array:
-  readIndex = readIndex + 1;
-
-  // if we're at the end of the array...
-  if (readIndex >= numReadings)
-  {
-    // ...wrap around to the beginning:
-    readIndex = 0;
-  }
-
-  // calculate the average:
-  return total / numReadings;
-}
-
-// Mode calculation
-rangeArrayCalculateMode(int inches)
+// Add to rangeArray
+void addReadingToRangeArray(int reading)
 {
   // Collect data in datasheet
   // subtract the last reading:
   total = total - rangeArray[readIndex];
   // read from the sensor:
-  rangeArray[readIndex] = inches;
+  rangeArray[readIndex] = reading;
   // add the reading to the total:
   total = total + rangeArray[readIndex];
   // advance to the next position in the array:
@@ -106,8 +83,17 @@ rangeArrayCalculateMode(int inches)
     // ...wrap around to the beginning:
     readIndex = 0;
   }
+}
 
-  // Mode calculation;
+// Function to Calculate Average
+rangeArrayCalculateAverage()
+{
+  return total / numReadings;
+}
+
+// Function to Calculate Mode
+rangeArrayCalculateMode()
+{
   int modeguess = 0; // unlikely number.
   int count = 0;
   int valmax = 0;
@@ -178,8 +164,11 @@ void loop()
   // Get data from sensors
   int range = readSensors();
 
-  // Run the reportRange function with the mode function within
-  int mode = Calculate(range);
+  // Add to the array
+  addReadingToRangeArray(range);
+
+  // Get mode calculation
+  int mode = rangeArrayCalculateMode();
 
   // Output to lights & tone
   indicateRange(mode);
