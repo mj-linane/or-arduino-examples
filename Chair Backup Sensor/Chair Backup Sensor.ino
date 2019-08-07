@@ -28,12 +28,12 @@ const int pingPin = 7;
 const int numReadings = 30;
 
 int rangeArray[numReadings]; // the readings from the analog input
-int readIndex = 0;         // the index of the current reading
-int total = 0;             // the running total
-int average = 0;           // the average
+int readIndex = 0;           // the index of the current reading
+int total = 0;               // the running total
+int average = 0;             // the average
 
 // Function to report range output
-void indicateRange(inches)
+void indicateRange(int inches)
 {
 
   if (inches >= 31)
@@ -65,7 +65,7 @@ void indicateRange(inches)
 }
 
 // Function to average the result
-rangeArrayCalculateAverage(inches)
+rangeArrayCalculateAverage(int inches)
 {
   // subtract the last reading:
   total = total - rangeArray[readIndex];
@@ -88,7 +88,7 @@ rangeArrayCalculateAverage(inches)
 }
 
 // Mode calculation
-rangeArrayCalculateMode(inches)
+rangeArrayCalculateMode(int inches)
 {
   // Collect data in datasheet
   // subtract the last reading:
@@ -114,7 +114,7 @@ rangeArrayCalculateMode(inches)
 
   for (int i = 0; i < numReadings; i++)
   {
-    if (rangeArray[i] == modeGuess)
+    if (rangeArray[i] == modeguess)
     {
       count++;
     }
