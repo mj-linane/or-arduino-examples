@@ -65,7 +65,7 @@ void indicateRange(inches)
 }
 
 // Function to average the result
-average(inches)
+rangeArrayAverage(inches)
 {
   // subtract the last reading:
   total = total - readings[readIndex];
@@ -88,7 +88,7 @@ average(inches)
 }
 
 // Mode calculation
-mode(inches)
+rangeArrayMode(inches)
 {
   // Collect data in datasheet
   // subtract the last reading:
@@ -107,19 +107,22 @@ mode(inches)
     readIndex = 0;
   }
 
-  // Mode calculation
-  valcount = 0;
-  modeguess = 0; // unlikely number.
-  valmax = 0;
-  for (thisval in dataArr)
+  // Mode calculation;
+  int modeguess = 0; // unlikely number.
+  int count = 0;
+  int valmax = 0;
+
+  for (int i = 0; i < numReadings; i++)
   {
-    valcount = countOcurrances(thisval);
-    if
-      valcount > valmax
-      { // new max?
-        modeguess = thisval;
-        valmax = valcount;
-      }
+    if (readings[i] == modeGuess)
+    {
+      count++;
+    }
+    if (count > valmax)
+    { // Check to see if there is a new max
+      modeguess = readings[i];
+      valmax = count;
+    }
   }
   return modeguess;
 }
@@ -146,7 +149,7 @@ readSensors()
   duration = pulseIn(pingPin, HIGH);
 
   // convert the time into a inches
-  inchesRange = microsecondsToInches(duration);
+  int inchesRange = microsecondsToInches(duration);
 
   delay(1); // delay in between reads for stability
   return inchesRange;
@@ -176,12 +179,15 @@ void loop()
   int range = readSensors();
 
   // Run the reportRange function with the mode function within
-  indicateRange(mode(range));
+  int mode = rangeArrayMode(range);
 
-  // send it to the computer as ASCII digits
-  Serial.println(average);
-  Serial.print("average, ");
-  Serial.print(inchesRange);
+  // Output to lights & tone
+  indicateRange(mode);
+
+  // Display to serial monitor
+  Serial.println(mode);
+  Serial.print(" mode, ");
+  Serial.print(range);
   Serial.print("in, ");
   Serial.println();
 }
