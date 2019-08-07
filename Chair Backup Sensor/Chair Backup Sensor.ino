@@ -27,7 +27,7 @@
 const int pingPin = 7;
 const int numReadings = 30;
 
-int readings[numReadings]; // the readings from the analog input
+int rangeArray[numReadings]; // the readings from the analog input
 int readIndex = 0;         // the index of the current reading
 int total = 0;             // the running total
 int average = 0;           // the average
@@ -65,14 +65,14 @@ void indicateRange(inches)
 }
 
 // Function to average the result
-rangeArrayAverage(inches)
+rangeArrayCalculateAverage(inches)
 {
   // subtract the last reading:
-  total = total - readings[readIndex];
+  total = total - rangeArray[readIndex];
   // read from the sensor:
-  readings[readIndex] = inches;
+  rangeArray[readIndex] = inches;
   // add the reading to the total:
-  total = total + readings[readIndex];
+  total = total + rangeArray[readIndex];
   // advance to the next position in the array:
   readIndex = readIndex + 1;
 
@@ -88,15 +88,15 @@ rangeArrayAverage(inches)
 }
 
 // Mode calculation
-rangeArrayMode(inches)
+rangeArrayCalculateMode(inches)
 {
   // Collect data in datasheet
   // subtract the last reading:
-  total = total - readings[readIndex];
+  total = total - rangeArray[readIndex];
   // read from the sensor:
-  readings[readIndex] = inches;
+  rangeArray[readIndex] = inches;
   // add the reading to the total:
-  total = total + readings[readIndex];
+  total = total + rangeArray[readIndex];
   // advance to the next position in the array:
   readIndex = readIndex + 1;
 
@@ -114,13 +114,13 @@ rangeArrayMode(inches)
 
   for (int i = 0; i < numReadings; i++)
   {
-    if (readings[i] == modeGuess)
+    if (rangeArray[i] == modeGuess)
     {
       count++;
     }
     if (count > valmax)
     { // Check to see if there is a new max
-      modeguess = readings[i];
+      modeguess = rangeArray[i];
       valmax = count;
     }
   }
@@ -168,7 +168,7 @@ void setup()
   // initialize all the readings to 0 for average:
   for (int thisReading = 0; thisReading < numReadings; thisReading++)
   {
-    readings[thisReading] = 0;
+    rangeArray[thisReading] = 0;
   }
 }
 
@@ -179,7 +179,7 @@ void loop()
   int range = readSensors();
 
   // Run the reportRange function with the mode function within
-  int mode = rangeArrayMode(range);
+  int mode = Calculate(range);
 
   // Output to lights & tone
   indicateRange(mode);
