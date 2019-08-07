@@ -67,6 +67,9 @@ int readSensors()
 
   // convert the time into a inches
   int inchesRange = microsecondsToInches(duration);
+  addReadingToRangeArray(inchesRange);
+  Serial.print(rangeArray);
+  Serial.print();
 
   delay(1); // delay in between reads for stability
   return inchesRange;
@@ -171,17 +174,12 @@ void setup()
 // Main loop
 void loop()
 {
-  // Get data from sensors
+  // Get data from sensors and add to array
   int range = readSensors();
 
-  // Add to the array
-  addReadingToRangeArray(range);
-  Serial.print(rangeArray);
-  Serial.print();
-
   // Get smoothing calculations calculation
-  int mode = rangeArrayCalculateMode();
-  int average = rangeArrayCalculateAverage();
+  // int mode = rangeArrayCalculateMode();
+  // int average = rangeArrayCalculateAverage();
 
   // Output to lights & tone
   // indicateRange(range);
