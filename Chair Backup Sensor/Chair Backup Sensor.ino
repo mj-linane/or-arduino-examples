@@ -86,13 +86,13 @@ void addReadingToRangeArray(int reading)
 }
 
 // Function to Calculate Average
-rangeArrayCalculateAverage()
+int rangeArrayCalculateAverage()
 {
   return total / numReadings;
 }
 
 // Function to Calculate Mode
-rangeArrayCalculateMode()
+int rangeArrayCalculateMode()
 {
   int modeguess = 0; // unlikely number.
   int count = 0;
@@ -113,7 +113,7 @@ rangeArrayCalculateMode()
   return modeguess;
 }
 
-readSensors()
+int readSensors()
 {
   // establish variables for duration of the ping, and the distance result
   // in inches and centimeters:
