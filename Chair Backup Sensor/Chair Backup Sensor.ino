@@ -176,6 +176,8 @@ void loop()
 
   // Add to the array
   addReadingToRangeArray(range);
+  Serial.print(rangeArray);
+  Serial.print();
 
   // Get smoothing calculations calculation
   int mode = rangeArrayCalculateMode();
@@ -185,11 +187,11 @@ void loop()
   // indicateRange(range);
 
   // Display to serial monitor
-  Serial.println(mode);
-  Serial.print("mode, ");
-  Serial.println(average);
-  Serial.print("average, ");
-  Serial.print(range);
-  Serial.print("in, ");
-  Serial.println();
+  // Serial.println(mode);
+  // Serial.print("mode, ");
+  // Serial.println(average);
+  // Serial.print("average, ");
+  // Serial.print(range);
+  // Serial.print("in, ");
+  // Serial.println();
 }
