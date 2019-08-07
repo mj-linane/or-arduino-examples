@@ -43,38 +43,6 @@ long microsecondsToInches(long microseconds)
   return microseconds / 74 / 2;
 }
 
-// Function to read the sensors
-int readSensors()
-{
-  // establish variables for duration of the ping, and the distance result
-  // in inches and centimeters:
-  long duration, inches;
-
-  // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  pinMode(pingPin, OUTPUT);
-  digitalWrite(pingPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(pingPin, HIGH);
-  delayMicroseconds(5);
-  digitalWrite(pingPin, LOW);
-
-  // The same pin is used to read the signal from the PING))): a HIGH pulse
-  // whose duration is the time (in microseconds) from the sending of the ping
-  // to the reception of its echo off of an object.
-  pinMode(pingPin, INPUT);
-  duration = pulseIn(pingPin, HIGH);
-
-  // convert the time into a inches
-  int inchesRange = microsecondsToInches(duration);
-  addReadingToRangeArray(inchesRange);
-  Serial.print(rangeArray);
-  Serial.print();
-
-  delay(1); // delay in between reads for stability
-  return inchesRange;
-}
-
 // Add individual ping data to rangeArray
 void addReadingToRangeArray(int reading)
 {
@@ -96,6 +64,37 @@ void addReadingToRangeArray(int reading)
   }
 }
 
+// Function to read the sensors
+int readSensors()
+{
+  // establish variables for duration of the ping, and the distance result
+  // in inches:
+  long duration, inches;
+
+  // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
+  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+  // The same pin is used to read the signal from the PING))): a HIGH pulse
+  // whose duration is the time (in microseconds) from the sending of the ping
+  // to the reception of its echo off of an object.
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+
+  // convert the time into a inches
+  int inchesRange = microsecondsToInches(duration);
+  addReadingToRangeArray(inchesRange);
+
+  delay(1); // delay in between reads for stability
+
+  return inchesRange;
+}
+
 // Function to Calculate Range Array Average
 int rangeArrayCalculateAverage()
 {
@@ -115,7 +114,6 @@ int rangeArrayCalculateMode()
     {
       count++;
     };
-    Serial.print(modeguess);
     if (count > valmax)
     { // Check to see if there is a new max
       modeguess = rangeArray[i];
@@ -176,9 +174,14 @@ void loop()
 {
   // Get data from sensors and add to array
   int range = readSensors();
+  for (int i = 0; i > numReadings; i++)
+  {
+    Serial.println(rangeArray[i]);
+    Serial.println();
+  }
 
   // Get smoothing calculations calculation
-  // int mode = rangeArrayCalculateMode();
+  int mode = rangeArrayCalculateMode();
   // int average = rangeArrayCalculateAverage();
 
   // Output to lights & tone
