@@ -102,7 +102,7 @@ int rangeArrayCalculateMode()
     {
       count++;
     }
-    if (count > valmax)
+    Serial.print(modeguess) if (count > valmax)
     { // Check to see if there is a new max
       modeguess = rangeArray[i];
       valmax = count;
@@ -174,9 +174,9 @@ void loop()
 
   // Display to serial monitor
   Serial.println(mode);
-  Serial.print(" mode, ");
+  Serial.print("mode, ");
   Serial.println(average);
-  Serial.print(" average, ");
+  Serial.print("average, ");
   Serial.print(range);
   Serial.print("in, ");
   Serial.println();
