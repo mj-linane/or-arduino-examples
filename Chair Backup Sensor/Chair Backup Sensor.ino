@@ -36,19 +36,19 @@ int average = 0;             // the average
 void indicateRange(int inches)
 {
 
-  if (inches >= 31)
+  if (inches >= 70)
   {
     digitalWrite(13, HIGH);
     digitalWrite(12, LOW);
     noTone(2);
   }
-  else if (inches >= 11 && inches <= 30)
+  else if (inches >= 40 && inches <= 69)
   {
     digitalWrite(12, HIGH);
     digitalWrite(13, LOW);
     noTone(2);
   }
-  else if (inches >= 5 && inches <= 10)
+  else if (inches >= 15 && inches <= 39)
   {
     tone(2, 65);
     digitalWrite(12, LOW);
@@ -60,8 +60,6 @@ void indicateRange(int inches)
     digitalWrite(12, LOW);
     digitalWrite(13, LOW);
   }
-
-  delay(100);
 }
 
 // Add to rangeArray
@@ -168,10 +166,11 @@ void loop()
   addReadingToRangeArray(range);
 
   // Get mode calculation
-  int mode = rangeArrayCalculateMode();
+  // int mode = rangeArrayCalculateMode();
+  int average = rangeArrayCalculateAverage();
 
   // Output to lights & tone
-  indicateRange(mode);
+  indicateRange(range);
 
   // Display to serial monitor
   Serial.println(mode);
