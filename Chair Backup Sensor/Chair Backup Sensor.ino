@@ -121,28 +121,10 @@ mode(inches)
         valmax = valcount;
       }
   }
-  return modeguess
+  return modeguess;
 }
 
-// Setup the arduino
-void setup()
-{
-  pinMode(13, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(2, OUTPUT);
-
-  // initialize serial communication:
-  Serial.begin(9600);
-
-  // initialize all the readings to 0 for average:
-  for (int thisReading = 0; thisReading < numReadings; thisReading++)
-  {
-    readings[thisReading] = 0;
-  }
-}
-
-// Main loop
-void loop()
+readSensors()
 {
   // establish variables for duration of the ping, and the distance result
   // in inches and centimeters:
@@ -167,6 +149,34 @@ void loop()
   inchesRange = microsecondsToInches(duration);
 
   delay(1); // delay in between reads for stability
+  return inchesRange;
+}
+
+// Setup the arduino
+void setup()
+{
+  pinMode(13, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(2, OUTPUT);
+
+  // initialize serial communication:
+  Serial.begin(9600);
+
+  // initialize all the readings to 0 for average:
+  for (int thisReading = 0; thisReading < numReadings; thisReading++)
+  {
+    readings[thisReading] = 0;
+  }
+}
+
+// Main loop
+void loop()
+{
+  // Get data from sensors
+  int range = readSensors();
+
+  // Run the reportRange function with the mode function within
+  indicateRange(mode(range));
 
   // send it to the computer as ASCII digits
   Serial.println(average);
@@ -174,9 +184,6 @@ void loop()
   Serial.print(inchesRange);
   Serial.print("in, ");
   Serial.println();
-
-  // Run the reportRange function with the mode function within
-  indicateRange(mode(inchesRange))
 }
 
 long microsecondsToInches(long microseconds)
